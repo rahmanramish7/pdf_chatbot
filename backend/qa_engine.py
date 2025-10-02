@@ -5,8 +5,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.llms.base import LLM
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from groq import Groq
+
 
 # Load .env
 load_dotenv()
@@ -14,8 +15,10 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 if not GROQ_API_KEY:
     raise ValueError("Please set your GROQ_API_KEY in .env")
 
+
 # Initialize Groq client
 client = Groq(api_key=GROQ_API_KEY)
+
 
 # Custom LLM wrapper for Groq
 class GroqLLM(LLM):
@@ -29,6 +32,7 @@ class GroqLLM(LLM):
             messages=[{"role": "user", "content": prompt}],
         )
         return response.choices[0].message.content
+
 
 # Instantiate LLM
 llm = GroqLLM()
@@ -64,5 +68,8 @@ def get_answer(query: str, vector_store) -> str:
     """
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
     qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
-    answer = qa_chain.run(query)
-    return answer
+    try:
+        answer = qa_chain.run(query)
+        return answer
+    except Exception as e:
+        return f"❌ Error generating answer: {str(e)}"
