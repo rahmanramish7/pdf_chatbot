@@ -2,7 +2,10 @@ from fastapi import FastAPI, UploadFile, Form
 from fastapi.responses import JSONResponse
 from io import BytesIO
 from qa_engine import process_pdf, get_answer
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 app = FastAPI()
 
 # Global vectorstore

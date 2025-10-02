@@ -8,3 +8,6 @@ PyPDF2
 openai
 python-dotenv
 python-multipart
+sentence-transformers
+groq
+

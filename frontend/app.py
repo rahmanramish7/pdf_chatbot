@@ -4,7 +4,8 @@ import requests
 st.title("📄 PDF Q&A Bot (FAISS + Groq)")
 st.title("Created by AI Engineer  Syed Rahman")
 
-backend_url = "http://127.0.0.1:8000"
+backend_url = "https://pdf-backend.onrender.com"
+
 
 # Step 1: Upload PDF
 uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
